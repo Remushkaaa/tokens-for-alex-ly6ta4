@@ -217,8 +217,9 @@ if(!reduce){const sp=document.getElementById('sparks');for(let k=0;k<22;k++){con
 }
 
 // pixel sakura petals: hand-drawn sprites, drawn to canvas, no external images
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 (function(){
- if(reduce)return;
+ if(calm)return;
  const pal={a:'#ffd6e8',b:'#ffadd2',c:'#f783b8',d:'#e45c9c'};
  const maps=[
   ['.ab.','abbc','bbcd','.cd.'],
@@ -235,7 +236,7 @@ if(!reduce){const sp=document.getElementById('sparks');for(let k=0;k<22;k++){con
   box.appendChild(p)}
 })();
 // table of contents: scroll by script so links also work inside sandboxed previews
-document.querySelectorAll('.toc a').forEach(a=>a.addEventListener('click',e=>{const t=document.getElementById(a.getAttribute('href').slice(1));if(!t)return;e.preventDefault();if(t.tagName==='DETAILS')t.open=true;t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});try{history.replaceState(null,'',a.getAttribute('href'))}catch(_){}}));
+document.querySelectorAll('.toc a').forEach(a=>a.addEventListener('click',e=>{const t=document.getElementById(a.getAttribute('href').slice(1));if(!t)return;e.preventDefault();if(t.tagName==='DETAILS')t.open=true;t.scrollIntoView({behavior:calm?'auto':'smooth',block:'start'});try{history.replaceState(null,'',a.getAttribute('href'))}catch(_){}}));
 </script>
 </body>
 </html>
