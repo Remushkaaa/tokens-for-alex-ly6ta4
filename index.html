@@ -252,58 +252,75 @@ document.querySelectorAll('.toc a').forEach(a=>a.addEventListener('click',e=>{co
 
 // generative ambient piano: original music made live in the browser, works offline, no audio files
 (function(){
- const b=document.getElementById('music');if(!b)return;
- let ac=null,out=null,rev=null,on=false,timer=null,next=0,piece=null;
  const R=(a,z)=>a+Math.random()*(z-a),pick=a=>a[Math.floor(Math.random()*a.length)];
- const MODES=[[0,2,4,7,9],[0,2,4,6,7,9,11],[0,2,3,5,7,9,10],[0,2,4,5,7,9,11],[0,3,5,7,10]];
+ // chords as semitones from key root; all built from the major scale
+ const CH={I:[0,4,7,11],IV:[5,9,12,16],vi:[9,12,16,19],ii:[2,5,9,12],iii:[4,7,11,14],V:[7,11,14]};
+ const PROGS=[['I','IV','I','IV'],['I','vi','IV','I'],['IV','I','vi','IV'],['I','iii','IV','I'],['vi','IV','I','IV'],['I','IV','vi','ii']];
+ const RHY=[[0,1,2],[0,1.5,2,3],[0,2,3],[0,.5,1,2],[1,2,3],[0,2],[0,1,1.5,2.5],[0]];
+ const PENT=[0,2,4,7,9];
+ // compose one piece: returns list of {t (beats), midi, vel, dur (beats), hand}
+ function compose(){
+  const key=pick([0,2,5,7]),base=60+key,beats=4;
+  const scale=[];for(let o=-1;o<3;o++)PENT.forEach(s=>scale.push(base+o*12+s));
+  const lo=scale.findIndex(n=>n>=base),hi=scale.findIndex(n=>n>=base+16);
+  const prog=pick(PROGS),progB=pick(PROGS);
+  const motif=()=>{const m=[];for(let b=0;b<4;b++){const r=pick(RHY);m.push(r.map(p=>[p,pick([-1,-1,1,1,0,2,-2])]))}m[3]=[[0,0]];return m};
+  const A=motif(),B=motif(),form=[A,A,B,A];
+  const ev=[];let idx=lo+3;
+  form.forEach((sec,si)=>{
+   const pr=sec===B?progB:prog;
+   sec.forEach((bar,bi)=>{
+    const t0=(si*4+bi)*beats,ch=CH[pr[bi]].map(x=>base+x);
+    // left hand: soft bass + broken chord, never more than 3 notes per bar
+    const root=ch[0]-24+(ch[0]-24<36?12:0);
+    ev.push({t:t0,midi:root,vel:.13,dur:6,hand:'L'});
+    ev.push({t:t0+1,midi:ch[0]-12,vel:.06,dur:4,hand:'L'});
+    if(Math.random()<.7)ev.push({t:t0+2,midi:ch[1]-12,vel:.055,dur:4,hand:'L'});
+    // right hand: motif contour, strong beats snap to a chord tone
+    bar.forEach(([p,step])=>{
+     idx=Math.max(lo,Math.min(hi,idx+step));let m=scale[idx];
+     const strong=p===0||p===2||(bi===3);
+     if(strong){const tones=[];for(let o=-1;o<3;o++)ch.forEach(c=>tones.push(c+o*12));
+      m=tones.filter(x=>scale.includes(x)&&x>=scale[lo]&&x<=scale[hi]).sort((a,b)=>Math.abs(a-m)-Math.abs(b-m))[0]??m;idx=scale.indexOf(m)}
+     ev.push({t:t0+p,midi:m,vel:bi===3?.09:.11,dur:bi===3?6:3,hand:'R'});
+    });
+   });
+  });
+  return {ev,len:16*beats,bpm:R(62,70),prog,progB,base};
+ }
+ if(typeof window==='undefined'){module.exports={compose,CH};return}
+
+ const b=document.getElementById('music');if(!b)return;
+ let ac=null,out=null,rev=null,on=false,timer=null,next=0,queue=[];
  function setup(){
   ac=new (window.AudioContext||window.webkitAudioContext)();
-  out=ac.createGain();out.gain.value=0;out.connect(ac.destination);
-  const len=ac.sampleRate*4.5,ir=ac.createBuffer(2,len,ac.sampleRate);
-  for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.2)}
-  rev=ac.createConvolver();rev.buffer=ir;const wet=ac.createGain();wet.gain.value=.55;rev.connect(wet);wet.connect(out);
+  const lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2600;lp.Q.value=.2;
+  out=ac.createGain();out.gain.value=0;out.connect(lp);lp.connect(ac.destination);
+  const len=ac.sampleRate*3.5,ir=ac.createBuffer(2,len,ac.sampleRate);
+  for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,4)*.5}
+  rev=ac.createConvolver();rev.buffer=ir;const wet=ac.createGain();wet.gain.value=.32;rev.connect(wet);wet.connect(out);
  }
  function note(midi,t,vel,dur){
-  const f=440*Math.pow(2,(midi-69)/12),g=ac.createGain(),lp=ac.createBiquadFilter();
-  lp.type='lowpass';lp.frequency.value=Math.min(5200,f*6);lp.Q.value=.3;
-  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vel,t+.008);
-  g.gain.exponentialRampToValueAtTime(vel*.35,t+.35);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-  [[1,1],[2,.32],[3,.11],[4.02,.05]].forEach(([m,a])=>{const o=ac.createOscillator(),og=ac.createGain();
-   o.type=m===1?'triangle':'sine';o.frequency.value=f*m;o.detune.value=R(-4,4);og.gain.value=a;o.connect(og);og.connect(g);o.start(t);o.stop(t+dur+.05)});
-  const pan=ac.createStereoPanner?ac.createStereoPanner():null;
-  g.connect(lp);if(pan){pan.pan.value=R(-.35,.35);lp.connect(pan);pan.connect(out);pan.connect(rev)}else{lp.connect(out);lp.connect(rev)}
- }
- function newPiece(){
-  const mode=pick(MODES),root=48+Math.floor(R(0,10)),beat=60/R(56,74);
-  const sc=[];for(let o=0;o<4;o++)mode.forEach(s=>sc.push(root+o*12+s));
-  const prog=[0,pick([3,4,5]),pick([2,5]),pick([3,4])];
-  piece={sc,root,beat,prog,bar:0,bars:Math.floor(R(14,26)),pos:Math.floor(sc.length*.55),motif:null};
- }
- function bar(t){
-  const p=piece,deg=p.prog[p.bar%p.prog.length],len=p.beat*4;
-  const bass=p.sc[deg%p.sc.length]-12;
-  if(Math.random()<.85)note(bass,t,.16,len*1.9);
-  if(Math.random()<.6)note(p.sc[deg+2]||bass+7,t+p.beat*R(.9,1.1),.08,len*1.6);
-  if(!p.motif||Math.random()<.3){p.motif=[];let n=Math.floor(R(2,6));for(let i=0;i<n;i++){p.motif.push([Math.floor(R(0,8))*.5,Math.floor(R(-2,3))])}}
-  if(Math.random()<.78)p.motif.forEach(([at,step])=>{
-   p.pos=Math.max(Math.floor(p.sc.length*.4),Math.min(p.sc.length-2,p.pos+step));
-   note(p.sc[p.pos],t+at*p.beat+R(0,.04),R(.09,.17),R(2.5,4.5))});
-  p.bar++;
-  return len;
+  const f=440*Math.pow(2,(midi-69)/12),g=ac.createGain();
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vel,t+.015);
+  g.gain.exponentialRampToValueAtTime(vel*.4,t+.5);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  [[1,1],[2,.16],[3,.04]].forEach(([m,a])=>{const o=ac.createOscillator(),og=ac.createGain();
+   o.type='sine';o.frequency.value=f*m;og.gain.value=a;o.connect(og);og.connect(g);o.start(t);o.stop(t+dur+.05)});
+  g.connect(out);g.connect(rev);
  }
  function tick(){
-  while(next<ac.currentTime+1.5){
-   if(!piece)newPiece();
-   if(piece.bar>=piece.bars){piece=null;next+=R(10,25);continue}
-   next+=bar(next);
+  while(next<ac.currentTime+2){
+   const pc=compose(),sec=60/pc.bpm;
+   pc.ev.forEach(e=>note(e.midi,next+e.t*sec+(e.hand==='R'?R(0,.02):0),e.vel*R(.9,1.05),e.dur*sec));
+   next+=pc.len*sec+R(8,18);
   }
  }
  function start(){
   if(!ac)setup();ac.resume();
-  out.gain.cancelScheduledValues(ac.currentTime);out.gain.setTargetAtTime(.5,ac.currentTime,.8);
-  next=Math.max(next,ac.currentTime+.1);timer=setInterval(tick,300);tick();
+  out.gain.cancelScheduledValues(ac.currentTime);out.gain.setTargetAtTime(.55,ac.currentTime,.6);
+  next=Math.max(next,ac.currentTime+.2);timer=setInterval(tick,1000);tick();
  }
- function stop(){out.gain.setTargetAtTime(0,ac.currentTime,.4);clearInterval(timer);timer=null;piece=null;setTimeout(()=>{if(!on)ac.suspend()},1500)}
+ function stop(){out.gain.setTargetAtTime(0,ac.currentTime,.4);clearInterval(timer);timer=null;setTimeout(()=>{if(!on){ac.close();ac=null;next=0}},1500)}
  b.addEventListener('click',()=>{on=!on;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);b.querySelector('.lbl').textContent=on?'Тише':'Музыка';on?start():stop()});
 })();
 </script>
