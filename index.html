@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Экономия токенов: 14 идей для Алекса</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--ink:#3a0f2e;--soft:#7a4a6c;--card:rgba(255,255,255,.72);--line:rgba(160,40,110,.16);--hot:#e6338a;--hot2:#ff7ab6;--lav:#b06cff;--gold:#ffcf5a;--ok:#0f8a54;--mid:#a86a00;--no:#c0183a}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font:16px/1.55 Manrope,system-ui,sans-serif;overflow-x:clip;min-height:100vh;
+ background:linear-gradient(120deg,#ffe3f1,#ffc2df,#f3d1ff,#ffd6e8,#ffe9f4);background-size:400% 400%;animation:bg 22s ease-in-out infinite}
+@keyframes bg{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.blobs{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:float 18s ease-in-out infinite}
+.b1{width:420px;height:420px;background:#ff8cc6;top:-80px;left:-100px}
+.b2{width:360px;height:360px;background:#c58bff;top:30%;right:-120px;animation-delay:-6s}
+.b3{width:300px;height:300px;background:#ffb3d1;bottom:-60px;left:30%;animation-delay:-12s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(60px,40px) scale(1.1)}66%{transform:translate(-40px,60px) scale(.95)}}
+.spark{position:absolute;bottom:-20px;width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 10px 3px rgba(255,255,255,.9),0 0 18px 6px rgba(255,122,182,.5);animation:rise linear infinite;opacity:0}
+@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}10%{opacity:1}90%{opacity:.8}100%{transform:translateY(-110vh) scale(1.1);opacity:0}}
+.wrap{max-width:1120px;margin:0 auto;padding:0 max(4vw,16px)}
+section{padding-block:clamp(22px,3.5vw,44px)}
+.card{background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.8);border-radius:24px;padding:clamp(18px,3vw,32px);box-shadow:0 10px 40px rgba(200,40,120,.12)}
+.meta{color:var(--soft);font-size:14px;margin:0 0 12px}
+h1{font-weight:800;font-size:clamp(30px,4.6vw,52px);line-height:1.06;letter-spacing:-.02em;margin:0 0 16px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--hot),var(--lav),var(--hot));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:200% center}}
+h2{font-weight:800;font-size:clamp(22px,2.8vw,30px);line-height:1.15;margin:0 0 14px;text-wrap:balance}
+h3{font-weight:700;font-size:17px;margin:0 0 4px}
+p,li{max-width:74ch}
+.lead{font-size:17.5px}
+.figs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+.fig{border-radius:20px;padding:18px 20px;background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.9);transition:transform .3s}
+.fig:hover{transform:translateY(-4px) rotate(-.5deg)}
+.fig b{display:block;font-size:clamp(36px,4.6vw,54px);font-weight:800;line-height:1;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.fig.main{background:linear-gradient(135deg,var(--hot),var(--lav));color:#fff;border:0;box-shadow:0 12px 30px rgba(230,51,138,.35)}
+.fig span{font-size:14px}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.toc a{color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;padding:6px 14px;border-radius:99px;background:rgba(255,255,255,.7);border:1px solid var(--line);transition:background .2s,transform .2s}
+.toc a:hover{background:#fff;transform:translateY(-2px)}
+.row{display:grid;grid-template-columns:minmax(0,17em) minmax(0,1fr) 4.4em;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.row .n{font-weight:600;font-size:15px;line-height:1.3}
+.track{height:18px;border-radius:99px;background:rgba(230,51,138,.08);overflow:hidden}
+.bar{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--hot),var(--hot2));transition:width 1.4s cubic-bezier(.2,.9,.2,1)}
+.bar.est{background:linear-gradient(90deg,rgba(230,51,138,.55),rgba(255,122,182,.55))}
+.bar.loss{background:repeating-linear-gradient(135deg,var(--lav) 0 6px,rgba(176,108,255,.35) 6px 11px)}
+.row .v{text-align:right;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:11.5px;font-weight:800;padding:1px 8px;border-radius:99px;margin-left:6px;vertical-align:1px;white-space:nowrap}
+.pill.new{background:var(--gold);color:#4a2a00;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,207,90,.7)}50%{box-shadow:0 0 0 6px rgba(255,207,90,0)}}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13.5px;color:var(--soft)}
+.legend i{display:inline-block;width:22px;height:11px;border-radius:99px;vertical-align:-1px;margin-right:6px;background:linear-gradient(90deg,var(--hot),var(--hot2))}
+.legend i.e{opacity:.55}.legend i.l{background:repeating-linear-gradient(135deg,var(--lav) 0 6px,rgba(176,108,255,.35) 6px 11px)}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:16px 0}
+.step{background:rgba(255,255,255,.7);border-radius:20px;padding:16px;border:1px solid rgba(255,255,255,.9);position:relative;transition:transform .3s,box-shadow .3s}
+.step:hover{transform:translateY(-5px);box-shadow:0 14px 30px rgba(200,40,120,.18)}
+.step .k{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--hot),var(--lav));margin-bottom:10px}
+.step p{font-size:14.5px;margin:0}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th{text-align:left;font-weight:700;border-bottom:2px solid var(--hot);padding:8px;vertical-align:bottom}
+td{border-bottom:1px solid var(--line);padding:9px 8px;vertical-align:top}
+tbody tr{transition:background .2s}tbody tr:hover{background:rgba(255,255,255,.6)}
+td.num{text-align:right;white-space:nowrap;font-weight:800;font-variant-numeric:tabular-nums}
+.tag{white-space:nowrap;font-size:12.5px;font-weight:700;padding:1px 8px;border-radius:99px;border:1.5px solid currentColor}
+.ok{color:var(--ok)}.mid{color:var(--mid)}.no{color:var(--no)}
+code{font-size:13.5px;background:rgba(255,255,255,.75);padding:1px 6px;border-radius:6px;overflow-wrap:anywhere}
+details{border-bottom:1px solid var(--line);padding:10px 0}
+summary{cursor:pointer;font-weight:700;list-style:none;display:flex;gap:10px;align-items:baseline}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'✦';color:var(--hot);transition:transform .3s;display:inline-block}
+details[open] summary::before{transform:rotate(90deg)}
+details p{margin:8px 0 2px 24px;font-size:15px}
+.note{border-left:4px solid var(--hot);background:rgba(255,255,255,.55);border-radius:0 14px 14px 0;padding:10px 14px;margin:14px 0;font-size:15px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+ol li,ul li{margin-bottom:6px}
+a{color:#b0186a}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+footer{text-align:center;color:var(--soft);font-size:13px;padding:10px 0 40px}
+@media(max-width:860px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:700px){.figs{grid-template-columns:minmax(0,1fr)}.row{grid-template-columns:minmax(0,1fr) 4.2em}.row .track{grid-column:1/-1;grid-row:2}
+ table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flex;justify-content:space-between;gap:12px;border:0;padding:3px 0;text-align:right}.stack td::before{content:attr(data-l);text-align:left;color:var(--soft);font-weight:600}.stack td.num{white-space:normal}}
+@media(max-width:480px){.steps{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.spark{display:none}}
+</style>
+</head>
+<body>
+<div class="blobs" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div id="sparks"></div></div>
+
+<section><div class="wrap"><div class="card reveal">
+<p class="meta">Разбор для Алекса от Реми · 24.11.2026 · Claude Code 2.1.331 · замеры по журналам ПК Реми: 48 часов (4 858 ходов) и 14 дней (12 028 ходов). Пока ничего не меняли, это предложения.</p>
+<h1>14 способов срезать <em>около трети</em> расхода токенов, и 4 из них — новые находки по нашим журналам</h1>
+<p class="lead">Почти весь расход — это то, что пересылается с каждым ходом: шапка сессии (55% всего чтения) и история чата. Поэтому выгоднее всего делать шапку меньше, не возвращаться в большие остывшие чаты и не тащить в историю лишнее.</p>
+<div class="figs">
+<div class="fig main"><b data-count="30" data-suffix="–35%">0</b><span>все идеи вместе, с учётом пересечений (оценка)</span></div>
+<div class="fig"><b data-count="9" data-prefix="≈" data-suffix="%">0</b><span>три флага в настройках, без строчки кода (замер: −21 тыс. токенов на ход)</span></div>
+<div class="fig"><b data-count="6" data-prefix="≈" data-suffix="%">0</b><span>переход в новый чат за пару секунд по готовой записке</span></div>
+</div>
+<nav class="toc" aria-label="Разделы"><a href="#bars-s">График</a><a href="#hand">Переход за 2 секунды</a><a href="#t">Таблица</a><a href="#d">Подробно</a><a href="#q">Вопросы</a><a href="#m">Как считала</a><a href="#s">Источники</a></nav>
+</div></div></section>
+
+<section id="bars-s"><div class="wrap"><div class="card reveal">
+<h2>Сколько экономит каждая идея, % от всего расхода</h2>
+<div id="bars"></div>
+<div class="legend"><span><i></i>замер, без потерь</span><span><i class="e"></i>оценка</span><span><i class="l"></i>чем-то платим</span><span><span class="pill new" style="margin:0 6px 0 0">новое</span>нашла сама по журналам</span></div>
+</div></div></section>
+
+<section id="hand"><div class="wrap"><div class="card reveal">
+<h2>Главная новая идея: переход в новый чат за пару секунд</h2>
+<p>За 14 дней мы <b>76 раз</b> возвращались в большой чат после паузы больше часа, в среднем с контекстом 192 тыс. токенов. Каждый такой ход заново записывает всю историю в кэш, около $1,5 на Opus. Вместе это <b>7,5% всего расхода</b>. Ещё 54 раза кэш перестраивался после сжатия. Мысль: переходить в новый чат не по счёту промтов, а только на событиях (перерыв, конец задачи, остывший кэш). Таких событий около 5 в день, и каждый переход должен проходить незаметно.</p>
+<div class="steps">
+<div class="step"><div class="k">1</div><h3>Записка пишется сама</h3><p>Хук <code>PostToolUse</code> на <code>wrap_up</code> копирует итог хода и список изменённых файлов в ПРОДОЛЖИТЬ.md. Лишних токенов нет.</p></div>
+<div class="step"><div class="k">2</div><h3>Сторож холодного кэша</h3><p>Хук <code>UserPromptSubmit</code> смотрит в журнал: прошёл час и контекст больше 150 тыс.? Тогда он не пускает промт (exit 2, ход не тратится) и предлагает новый чат.</p></div>
+<div class="step"><div class="k">3</div><h3>Слово «перерыв»</h3><p>Один ход за 3–5 секунд: дописать суть, сделать коммит, вызвать <code>start_session</code> с заданием «прочитай ПРОДОЛЖИТЬ.md». Старый чат уходит в архив.</p></div>
+<div class="step"><div class="k">4</div><h3>Одна кнопка</h3><p>В конце большой задачи Гномус ставит кнопку «Новый чат». Реми нажимает, и новая сессия уже ждёт с заданием.</p></div>
+</div>
+<div class="two">
+<div><table><thead><tr><th>Что делает Реми</th><th>Ждёт</th></tr></thead><tbody>
+<tr><td>ничего, записка пишется сама</td><td class="num">0 с</td></tr>
+<tr><td>пишет «перерыв»</td><td class="num">3–5 с</td></tr>
+<tr><td>возвращается в остывший чат</td><td class="num">1 клик</td></tr></tbody></table></div>
+<div class="note"><b>Что уже было:</b> в <code>Gnomus\CLAUDE.md</code> есть правило про три строки в журнал и совет начать новую сессию, в <code>v2-shift/lib/handoff.js</code> — передача смены. Но там модель всё делает руками. <b>Новое здесь — автоматика:</b> записка всегда готова, а сторож срабатывает раньше, чем мы заплатили за ход.</div>
+</div>
+</div></div></section>
+
+<section id="t"><div class="wrap"><div class="card reveal">
+<h2>Все идеи: экономия, действенность, потери</h2>
+<div class="scroll"><table class="stack" id="tbl"><thead><tr><th>Идея</th><th>Экономия</th><th>Действенность</th><th>Что теряем</th><th>Откуда цифра</th></tr></thead><tbody></tbody></table></div>
+<div class="note">Простая сумма по таблице ≈54%. Но идеи пересекаются: например, переход в новый чат и рутина вне приложения обе уменьшают число дорогих ходов. Реалистично ≈30–35%.</div>
+</div></div></section>
+
+<section id="d"><div class="wrap"><div class="card reveal">
+<h2>Подробно по идеям</h2>
+<div id="det"></div>
+<h3 style="margin-top:22px">Что проверила, но это не работает</h3>
+<ul>
+<li><code>"disableBundledSkills": true</code> сам по себе экономии не дал (замерено).</li>
+<li>Отключать коннекторы почти бесполезно: их описания и так отложены, это около 3 тыс. токенов в консоли. Kapture всё равно нужен фоновым сторожам.</li>
+<li>Просьбы «думай меньше» в тексте не работают: глубину задаёт уровень усилия.</li>
+</ul>
+</div></div></section>
+
+<section id="q"><div class="wrap"><div class="card reveal">
+<h2>Вопросы к Алексу</h2>
+<ol>
+<li>Принимает ли приложение блок промта из <code>UserPromptSubmit</code>, и увидит ли Реми сообщение хука?</li>
+<li>Доступен ли итог из <code>wrap_up</code> во входе <code>PostToolUse</code>?</li>
+<li>Как сделать, чтобы сторож не мешал запланированным задачам и сменам Agency? Например, проверять только сессии в папке Gnomus?</li>
+<li>Что ломает кэш внутри часа без сжатия и смены модели (69 случаев)? Можно ли записать причину хуком?</li>
+<li>Флаг <code>disableArtifact</code>: страницы публикуем редко, около 7 раз за 14 дней. Держим его выключенным и включаем по требованию?</li>
+<li>Добавить разбивку по этим утечкам в <code>рентген-расхода.py</code>, чтобы видеть их каждую неделю? Скрипты разбора готовы: <code>для-алекса\разбор-утечек\</code>.</li>
+</ol>
+</div></div></section>
+
+<section id="m"><div class="wrap"><div class="card reveal">
+<h2>Как считала</h2>
+<p><b>Шапка и флаги.</b> Мерила через <code>claude -p</code> на haiku: один ход без инструментов, сумма входных токенов, разные <code>--settings</code>. Повторный замер дал те же числа до токена. В приложении шапка больше (73–86 тыс.), но флаги убирают одни и те же куски.</p>
+<p><b>Доли расхода.</b> Подписка не публикует, как она взвешивает разные виды токенов, поэтому брала цены API относительно обычного входа. Окно 48 часов: чтение кэша 0,1, запись 1,25, ответ 5. Окно 14 дней, по весам Opus для часового кэша: чтение 0,05, запись 2, ответ 5. Отсюда небольшая разница между окнами; порядок величин в обоих одинаковый.</p>
+<p><b>Утечки за 14 дней.</b> Скрипты <code>cold.py</code>, <code>waste.py</code>, <code>rb.py</code> проходят 270 журналов. Холодным возвратом считала паузу больше часа, если больше половины контекста записано заново. Большим чтением — результат инструмента больше 8 тыс. токенов.</p>
+</div></div></section>
+
+<section id="s"><div class="wrap"><div class="card reveal">
+<h2>Источники</h2>
+<ul>
+<li>Справка о расходах: <a href="https://code.claude.com/docs/en/costs">code.claude.com/docs/en/costs</a></li>
+<li>Кэш промта в Claude Code: <a href="https://code.claude.com/docs/en/prompt-caching">code.claude.com/docs/en/prompt-caching</a></li>
+<li>Настройки: <a href="https://code.claude.com/docs/en/settings">code.claude.com/docs/en/settings</a>; хуки: <a href="https://code.claude.com/docs/en/hooks">code.claude.com/docs/en/hooks</a></li>
+<li>Список изменений: <a href="https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md">CHANGELOG.md</a></li>
+<li>Флаги, которые вырезают части шапки: <a href="https://www.joshmedeski.com/posts/tuning-your-claude-code-settings/">joshmedeski.com</a></li>
+<li>Свои замеры: <code>Fairix\справка\экономия.md</code>, <code>рентген-расхода.py</code>, <code>порог-сжатия.py</code>, <code>для-алекса\разбор-утечек\</code></li>
+</ul>
+</div></div></section>
+<footer>Сделано Реми и Гномусом · Fairix · 24.11.2026</footer>
+
+<script>
+{
+const I=[
+{n:'Рутина вне приложения («лёгкая голова»)',p:14,est:1,eff:'Очень высокая',c:'ok',lose:'По качеству ничего, но нужна разработка',src:'Оценка: половина ходов — рутина',d:'Сторожа, обходы и сводки запускает скрипт. Модель он будит через <code>голова.py</code>, у которого шапка 1,2 тыс. токенов, а не 65 тыс. Три из пяти самых дорогих сессий — одна рабочая папка. Самая сильная идея из всех, но это разработка, а не флаг.'},
+{n:'Переход в новый чат за пару секунд',p:6,est:1,nw:1,eff:'Высокая',c:'ok',lose:'Мелкие детали, которых нет в записке (старый чат остаётся в архиве)',src:'Замер: 76 холодных возвратов, 7,5%',d:'Подробно — в разделе выше. Холодные возвраты стоят 7,5% расхода. Новый чат на записке весит около 83 тыс. токенов против 192 тыс., и шапка часто ещё в кэше. Ещё он закрывает перестройку кэша после сжатия (54 раза). Старые чаты архивировать, а не удалять: их журналы читает статистика.'},
+{n:'Выключить артефакты',p:6,loss:1,eff:'Высокая',c:'ok',lose:'Публикацию страниц на claude.ai (7 раз за 14 дней)',src:'Замер: −13,5 тыс. на ход',d:'<code>"disableArtifact": true</code>: шапка 52 013 → 38 488 токенов. Флаг действует сразу везде. Можно держать артефакты выключенными и включать одной строкой, когда нужна страница (это один сброс кэша).'},
+{n:'Opus: усилие high → medium',p:6,est:1,loss:1,eff:'Высокая',c:'ok',lose:'Часть глубины на трудных задачах',src:'Оценка: ответы ≈20% расхода',d:'В <code>settings.json</code> у Opus стоит <code>effortLevel: high</code>, а правило Реми — medium для обычной работы. Для трудных задач и так есть Fable 5.2 high.'},
+{n:'Большие файлы читать кусками',p:5,est:1,nw:1,eff:'Высокая',c:'ok',lose:'Ничего, только привычка',src:'Замер: 242 больших чтения, 17 млн токенов',d:'Целиком прочитанный файл записывается в кэш, а потом едет в каждом следующем ходу. Одна запись — это уже около 11% расхода. Решение: сначала Grep, потом Read с <code>offset</code>/<code>limit</code>. Хук <code>PreToolUse</code> может напоминать об этом, когда файл большой, а Read вызван без <code>limit</code>.'},
+{n:'Субагенты — на Sonnet или Haiku',p:4,est:1,loss:1,eff:'Средняя',c:'mid',lose:'Немного качества у помощников',src:'Замер: субагенты 13,9% расхода',d:'Каждый субагент заново грузит шапку, и кэш у него живёт 5 минут. Окупается он только там, где держит шум вне чата: логи, обход страниц. Чтение и поиск можно отдать модели подешевле, а мелочи делать самой. Правило «Agency — Sonnet 5.5 high» не трогать.'},
+{n:'Страницы через Мост, а не Chrome',p:2.5,est:1,nw:1,eff:'Средняя',c:'mid',lose:'Ничего',src:'Замер: 186 больших страниц, 5,6 млн',d:'Хук <code>most-first.py</code> останавливает только первый вызов Chrome за сессию, а дальше утечка идёт свободно. Нужен счётчик вызовов Chrome в <code>рентген-расхода.py</code> или сторож построже.'},
+{n:'Не менять модель посреди чата',p:2,eff:'Средняя',c:'mid',lose:'Ничего, только привычка',src:'Замер: 30 раз, 2,7%',d:'У каждой модели свой кэш. Модель выбираем в начале, а другую подключаем субагентом.'},
+{n:'Найти, что ломает кэш внутри часа',p:2,est:1,nw:1,eff:'Средняя',c:'mid',lose:'Ничего',src:'Замер: 69 случаев без явной причины',d:'Кэш перестраивался без паузы, без сжатия и без смены модели. Подозреваю подключение или отвал MCP, плагин или обновление приложения. Надо записывать причину хуком, тогда станет понятно, что чинить.'},
+{n:'Короче вывод команд',p:1.7,est:1,loss:1,eff:'Низкая',c:'no',lose:'Риск пропустить строку ошибки',src:'Замер ноши Bash, оценка доли',d:'На Bash приходится 47% «ноши» от инструментов. Если скрипты будут отдавать только хвост и итог (ошибки — целиком), можно срезать половину.'},
+{n:'Выключить скиллы claude.ai',p:1.4,loss:1,eff:'Средняя',c:'mid',lose:'Памятки chrome-browser, pdf, xlsx, deep-research',src:'Замер: −3,2 тыс. на ход',d:'<code>"syncClaudeAiSkills": false</code>: шапка 52 013 → 48 794 токенов. Сам Chrome работает и без памятки.'},
+{n:'Выключить Workflow',p:1,eff:'Даром',c:'ok',lose:'Ничего (0 вызовов за 14 дней)',src:'Замер: −2,2 тыс. на ход',d:'<code>"disableWorkflows": true</code>. Самая чистая правка из всех.'},
+{n:'Починить хук правил под модель',p:.5,est:1,eff:'Даром',c:'mid',lose:'Ничего',src:'Оценка по длине текста',d:'<code>model-rules\\load.ps1</code> иногда печатает блоки сразу для двух моделей: лишние ≈1,2 тыс. токенов на ход.'},
+{n:'Выключить сводки субагентов',p:.5,est:1,loss:1,eff:'Низкая',c:'no',lose:'Строку о ходе работы субагента',src:'Не мерила',d:'<code>CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES=1</code> убирает фоновые запросы.'}
+];
+const max=Math.max(...I.map(i=>i.p)),fmt=v=>(v<1?'<1':String(v).replace('.',','))+'%',nw=i=>i.nw?'<span class="pill new">новое</span>':'';
+const bars=document.getElementById('bars');
+bars.innerHTML=I.map(i=>'<div class="row"><div class="n">'+i.n+nw(i)+'</div><div class="track"><div class="bar'+(i.loss?' loss':i.est?' est':'')+'" data-w="'+(i.p/max*100).toFixed(1)+'"></div></div><div class="v">'+(i.est?'≈':'')+fmt(i.p)+'</div></div>').join('');
+document.querySelector('#tbl tbody').innerHTML=I.map(i=>'<tr><td data-l="Идея"><b>'+i.n+'</b>'+nw(i)+'</td><td data-l="Экономия" class="num">'+(i.est?'≈':'')+fmt(i.p)+'</td><td data-l="Действенность"><span class="tag '+i.c+'">'+i.eff+'</span></td><td data-l="Что теряем">'+i.lose+'</td><td data-l="Откуда">'+i.src+'</td></tr>').join('');
+document.getElementById('det').innerHTML=I.map((i,k)=>'<details'+(k<2?' open':'')+'><summary>'+(k+1)+'. '+i.n+' · '+(i.est?'≈':'')+fmt(i.p)+nw(i)+'</summary><p>'+i.d+'</p></details>').join('');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const count=el=>{const t=+el.dataset.count,pre=el.dataset.prefix||'',suf=el.dataset.suffix||'';if(reduce){el.textContent=pre+t+suf;return}let s=null;const f=ts=>{s=s||ts;const k=Math.min((ts-s)/1400,1),e=1-Math.pow(1-k,3);el.textContent=pre+Math.round(t*e)+suf;if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)};
+const show=el=>{if(el.classList.contains('in'))return;el.classList.add('in');el.querySelectorAll('.bar').forEach((b,k)=>setTimeout(()=>b.style.width=b.dataset.w+'%',reduce?0:k*70));el.querySelectorAll('[data-count]').forEach(count)};
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){show(e.target);io.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const check=()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>{const r=el.getBoundingClientRect();if(r.top<innerHeight*.95)show(el)});
+addEventListener('scroll',check,{passive:true});setTimeout(check,300);
+if(!reduce){const sp=document.getElementById('sparks');for(let k=0;k<22;k++){const d=document.createElement('div');d.className='spark';const z=4+Math.random()*7;d.style.cssText='left:'+(Math.random()*100)+'%;width:'+z+'px;height:'+z+'px;animation-duration:'+(10+Math.random()*14)+'s;animation-delay:'+(-Math.random()*20)+'s';sp.appendChild(d)}}
+}
+</script>
+</body>
+</html>
